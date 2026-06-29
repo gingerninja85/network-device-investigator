@@ -6,9 +6,9 @@ The goal is to build a practical Hermes skill for safely identifying unknown net
 
 ## v0.1.0 - Core skill foundation
 
-Status: In progress
+Status: Mostly complete
 
-Planned scope:
+Scope:
 
 - [x] Initial `SKILL.md`
 - [x] Project `README.md`
@@ -16,13 +16,24 @@ Planned scope:
 - [x] Common vendors reference
 - [x] IoT pattern reference
 - [x] Camera vendor reference
-- [ ] Printer vendor reference
-- [ ] NAS vendor reference
-- [ ] Router/vendor reference
-- [ ] Service banner reference
-- [ ] mDNS service reference
-- [ ] DHCP vendor class reference
-- [ ] First example investigations
+- [x] Printer vendor reference
+- [x] NAS vendor reference
+- [x] Router/vendor reference
+- [x] Service banner reference
+- [x] mDNS service reference
+- [x] DHCP vendor class reference
+- [x] Risk scoring reference
+- [x] First example investigation
+- [x] License
+- [x] Contributing guide
+- [x] Changelog
+- [x] Code of conduct
+
+Remaining polish:
+
+- [ ] Verify installation instructions against current Hermes behaviour
+- [ ] Add at least one more example investigation
+- [ ] Add issue templates
 
 ## v0.2.0 - Example investigations
 
@@ -30,7 +41,7 @@ Add realistic, generic examples that do not contain private network details.
 
 Planned examples:
 
-- [ ] Mystery IP camera
+- [x] Mystery IP camera
 - [ ] Unknown printer
 - [ ] NAS device
 - [ ] Router or gateway
@@ -84,7 +95,7 @@ Improve defensive security guidance without crossing into offensive misuse.
 
 Planned additions:
 
-- [ ] Risk scoring rubric
+- [x] Risk scoring rubric
 - [ ] Telnet exposure guidance
 - [ ] Internet-exposed admin service guidance
 - [ ] UPnP risk guidance
@@ -99,7 +110,8 @@ Document how the skill can integrate with other Hermes skills and external tools
 
 Planned additions:
 
-- [ ] Anthropic Cybersecurity Skills integration notes
+- [x] Anthropic Cybersecurity Skills integration notes in README and SKILL.md
+- [ ] Dedicated integrations document
 - [ ] PCAP handoff workflow
 - [ ] IOC extraction handoff workflow
 - [ ] Incident-response handoff workflow
@@ -114,14 +126,14 @@ The core skill should remain functional without optional integrations.
 
 Criteria for v1.0.0:
 
-- [ ] Standalone `SKILL.md` is usable and safe
-- [ ] README clearly explains purpose, scope, installation, and safety
-- [ ] Core references are complete enough for common home-lab/MSP use
+- [x] Standalone `SKILL.md` is usable and safe
+- [x] README clearly explains purpose, scope, installation, and safety
+- [x] Core references are complete enough for common home-lab/MSP use
 - [ ] At least five example investigations are included
-- [ ] Safety boundaries are clearly documented
-- [ ] Optional integrations are documented but not required
-- [ ] No private or user-specific network details are present
-- [ ] License, contribution guide, changelog, and code of conduct are present
+- [x] Safety boundaries are clearly documented
+- [x] Optional integrations are documented but not required
+- [x] No private or user-specific network details are present
+- [x] License, contribution guide, changelog, and code of conduct are present
 
 ## Long-term ideas
 
