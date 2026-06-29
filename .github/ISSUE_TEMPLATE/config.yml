@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Hermes Agent documentation
+    url: https://hermes-agent.nousresearch.com/docs
+    about: Use this for Hermes installation or runtime questions that are not specific to this skill.

@@ -19,6 +19,10 @@ All notable changes to Network Device Investigator will be documented in this fi
 - DHCP vendor classes reference.
 - Risk scoring reference.
 - Mystery IP camera example.
+- Unknown printer example.
+- NAS/file-server example.
+- Device decision-tree reference.
+- GitHub issue templates for fingerprints, examples, and corrections.
 - Roadmap and outreach documentation.
 - Contributing guide and MIT license.
 
@@ -26,6 +30,8 @@ All notable changes to Network Device Investigator will be documented in this fi
 
 - Skill frontmatter uses lowercase hyphenated name: `network-device-investigator`.
 - Scan guidance now uses safer tiers from passive evidence through deeper scans.
+- README installation instructions now document full-folder Hermes installation so reference files are preserved.
+- Internet-exposed admin risk wording now distinguishes High from Critical based on exploitability and sensitivity evidence.
 
 ### Security
 

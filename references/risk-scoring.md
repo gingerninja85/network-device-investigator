@@ -44,7 +44,7 @@ Use when:
 - There is confirmed compromise
 - Malware or suspicious traffic is observed
 - Credentials are exposed
-- Admin interface is exposed to the internet
+- Admin interface is exposed to the internet and is unauthenticated, default-credential, known-vulnerable, or protects sensitive systems
 - Sensitive data is accessible to unauthorised users
 - The device is acting as a rogue gateway, DNS server, DHCP server, or MITM point
 
@@ -59,7 +59,7 @@ Start at 0.
 | Telnet or legacy admin exposed | +2 |
 | Camera/NVR/NAS/router/firewall/management device | +1 |
 | Default credentials suspected | +2 |
-| Internet-exposed admin interface | +3 |
+| Internet-exposed admin interface | +3; treat as at least High, Critical when unauthenticated, default-credential, known-vulnerable, or sensitive |
 | UPnP or unexpected inbound exposure | +1 |
 | Outdated firmware or unsupported vendor | +1 |
 | Signs of compromise, malware, credential exposure, or rogue network role | Critical |
@@ -70,6 +70,9 @@ Suggested mapping:
 - 2-3: Medium
 - 4-5: High
 - 6+ or confirmed compromise: Critical
+
+Internet-exposed admin services should not be rated below High. The additive
+score is a guide for consistency, not a substitute for judgement.
 
 ## Remediation priorities
 

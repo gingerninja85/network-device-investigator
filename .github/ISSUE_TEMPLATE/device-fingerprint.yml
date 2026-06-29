@@ -1,0 +1,44 @@
+name: Add device fingerprint
+description: Suggest a safe device fingerprint or vendor clue
+title: "Fingerprint: <device/vendor clue>"
+labels: [fingerprint]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share defensive identification clues only. Do not include credentials, exploit steps, or private customer details.
+  - type: input
+    id: device_class
+    attributes:
+      label: Device class
+      description: Camera, printer, NAS, router, IoT, media device, etc.
+      placeholder: IP camera
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / fingerprint
+      description: Ports, banners, DHCP names, mDNS/SSDP/SNMP clues, OUI/vendor clues, HTTP titles.
+      placeholder: |
+        Ports: 80, 554, 8000
+        Banner/title: ...
+        OUI/vendor: ...
+    validations:
+      required: true
+  - type: textarea
+    id: caveats
+    attributes:
+      label: Caveats and false positives
+      description: What else could this be? What would confirm or disprove it?
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: This contribution is defensive-only and does not include brute force, credential guessing, exploitation, persistence, malware, or unauthorised access guidance.
+          required: true
+        - label: I removed private IPs tied to real environments, real MACs, serial numbers, customer names, and secrets.
+          required: true

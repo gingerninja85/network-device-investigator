@@ -1,0 +1,37 @@
+name: Add anonymised example
+description: Propose a safe example investigation
+title: "Example: <device scenario>"
+labels: [example]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Examples should be realistic but anonymised. Use documentation/private ranges and fake MAC addresses.
+  - type: textarea
+    id: input_evidence
+    attributes:
+      label: Input evidence
+      description: The evidence Hermes would receive.
+      placeholder: |
+        IP: 192.168.1.45
+        MAC: AA:BB:CC:DD:EE:FF
+        Open ports: 23/tcp, 80/tcp
+        Banner: ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected_analysis
+    attributes:
+      label: Expected analysis
+      description: Likely identities, confidence, risk, and safe next checks.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety and privacy check
+      options:
+        - label: The example contains no real customer, company, hostname, serial number, MAC address, credential, token, or sensitive screenshot data.
+          required: true
+        - label: The example does not include brute force, credential guessing, exploitation, persistence, malware, or unauthorised access guidance.
+          required: true

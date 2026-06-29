@@ -1,0 +1,32 @@
+name: Correct unsafe or misleading guidance
+description: Report guidance that is unsafe, overconfident, or technically misleading
+title: "Correction: <short description>"
+labels: [correction]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: Point to the file/section and explain the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: safer_replacement
+    attributes:
+      label: Suggested safer replacement
+      description: Provide corrected defensive wording or evidence.
+    validations:
+      required: false
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Safety boundary
+        - Overconfident fingerprint
+        - Incorrect port/service interpretation
+        - Missing caveat
+        - Privacy/anonymisation issue
+        - Other
+    validations:
+      required: true

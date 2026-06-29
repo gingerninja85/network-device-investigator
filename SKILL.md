@@ -111,6 +111,7 @@ Use:
 - `references/common-ports.md`
 - `references/service-banners.md`
 - `references/iot-patterns.md`
+- `references/decision-trees.md`
 
 Look for combinations rather than isolated ports.
 
@@ -268,7 +269,7 @@ Start at Low, then increase risk when evidence supports it:
 - Telnet or legacy admin service exposed: +2
 - Camera/NVR/NAS or device likely to contain sensitive data: +1
 - Default credentials suspected or unchanged: +2
-- Internet-exposed admin interface: +3
+- Internet-exposed admin interface: +3, or Critical when unauthenticated, default-credential, known-vulnerable, or exposing sensitive systems
 - UPnP or unexpected inbound exposure: +1
 - Outdated firmware or unsupported vendor: +1
 - Signs of compromise, malware, or credential exposure: Critical
@@ -279,6 +280,10 @@ Suggested mapping:
 - 2-3: Medium
 - 4-5: High
 - 6+ or confirmed compromise: Critical
+
+Treat internet-exposed admin services as at least High even when the additive score is lower.
+Escalate to Critical when there is evidence of unauthorised access, unauthenticated access,
+default credentials, known exploited vulnerabilities, or sensitive data exposure.
 
 ### 9. Optional delegation to security skills
 
