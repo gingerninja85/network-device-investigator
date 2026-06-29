@@ -1,5 +1,5 @@
 ---
-name: Network Device Investigator
+name: network-device-investigator
 description: Identify and safely investigate unknown network devices using IP addresses, MAC addresses, DHCP information, service banners, network scans, and defensive analysis.
 triggers:
   - unknown network device
@@ -146,36 +146,94 @@ For each hypothesis, explain:
 
 ### 6. Recommend safe enumeration
 
-Prefer passive or low-risk checks first.
+Prefer passive or low-risk checks first. Use the lowest scan tier likely to answer the question. Escalate only when needed.
 
-Safe commands may include:
+#### Tier 0: Passive evidence
+
+Use before touching the target directly.
+
+Examples:
+
+- Router/firewall client list
+- DHCP lease table
+- ARP table
+- Switch MAC address table
+- Wi-Fi controller client list
+- Physical inventory
+- Existing monitoring data
+
+#### Tier 1: Local host and name checks
+
+Low-noise checks from the user's own machine or router.
 
 ```bash
 arp -a
 ip neigh
-nmap -sV -O --osscan-guess <ip>
-nmap -Pn -sV -p- --min-rate 3000 <ip>
-nmap --script=banner -p <ports> <ip>
-nmap --script=http-title,http-headers -p 80,443,8080,8443 <ip>
+nslookup <ip>
+dig -x <ip>
+ping -c 3 <ip>
 ```
 
-Camera-focused checks:
+#### Tier 2: Targeted service checks
+
+Use when there are likely device classes to test. Prefer targeted ports over full scans.
+
+Camera-focused:
 
 ```bash
 nmap -Pn -sV -p 80,443,554,8000,8080,8081,8899,5000,6668,37777 <ip>
 ```
 
-Printer-focused checks:
+Printer-focused:
 
 ```bash
-nmap -Pn -sV -p 80,443,515,631,9100 <ip>
+nmap -Pn -sV -p 80,443,515,631,9100,161 <ip>
 ```
 
-NAS-focused checks:
+NAS-focused:
 
 ```bash
 nmap -Pn -sV -p 22,80,443,445,5000,5001,548,2049 <ip>
 ```
+
+HTTP title/header check:
+
+```bash
+nmap --script=http-title,http-headers -p 80,443,8080,8443 <ip>
+```
+
+Banner check:
+
+```bash
+nmap --script=banner -p <ports> <ip>
+```
+
+#### Tier 3: Deeper TCP scan
+
+Use when targeted scans do not explain the device.
+
+Warn that full-port scans may be noisy for fragile IoT devices.
+
+```bash
+nmap -Pn -sV -p- <ip>
+```
+
+Avoid aggressive timing unless the user understands the trade-off.
+
+#### Tier 4: Advanced defensive discovery
+
+Use when normal scans are insufficient or when the device appears security-relevant.
+
+Examples:
+
+- mDNS discovery
+- SSDP/UPnP discovery
+- SNMP read-only discovery where authorised
+- Packet capture with tcpdump or Wireshark
+- Controller logs
+- Firewall logs
+
+If compatible cybersecurity skills are installed, delegate specialised analysis such as PCAP review or IOC extraction.
 
 Do not recommend brute forcing credentials.
 
@@ -200,7 +258,29 @@ Risk levels:
 - High: Telnet, admin services, default credentials suspected, camera/NAS exposure, or untrusted IoT on trusted LAN
 - Critical: confirmed compromise, malware, credential exposure, or internet-exposed admin service
 
-### 8. Optional delegation to security skills
+### 8. Risk scoring rubric
+
+Use this as a guide, not a rigid formula.
+
+Start at Low, then increase risk when evidence supports it:
+
+- Unknown device on trusted LAN: +1
+- Telnet or legacy admin service exposed: +2
+- Camera/NVR/NAS or device likely to contain sensitive data: +1
+- Default credentials suspected or unchanged: +2
+- Internet-exposed admin interface: +3
+- UPnP or unexpected inbound exposure: +1
+- Outdated firmware or unsupported vendor: +1
+- Signs of compromise, malware, or credential exposure: Critical
+
+Suggested mapping:
+
+- 0-1: Low
+- 2-3: Medium
+- 4-5: High
+- 6+ or confirmed compromise: Critical
+
+### 9. Optional delegation to security skills
 
 If compatible cybersecurity skills are installed, such as the Anthropic Cybersecurity Skills, delegate specialised work when appropriate.
 
@@ -247,7 +327,7 @@ Explain why.
 
 ## Safe next checks
 
-Provide exact commands or checks.
+Provide exact commands or checks, using scan tiers.
 
 ## Recommended action
 
