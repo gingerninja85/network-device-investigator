@@ -6,31 +6,40 @@ This is a generic, anonymised example based on a common home-lab/MSP scenario.
 
 ```text
 Unknown device on LAN
+
 IP: 192.168.1.45
 MAC: AA:BB:CC:DD:EE:FF
 OUI/vendor: Generic Wi-Fi module vendor
 DHCP hostname: unknown
 Open ports: 23/tcp
 Banner: ipc login:
-User context: Possible camera or smart-home device, but not confirmed
+User context: Several smart-home and camera devices are present on the network.
 ```
 
-## Analysis
+## Summary
 
-### Known facts
+The device is most likely an embedded IP camera, NVR-related device, or OEM camera module.
 
-- The device is active on the LAN.
-- It exposes Telnet on port `23`.
-- The login prompt contains `ipc`, which is often associated with IP camera firmware.
-- The OUI points to a module/OEM vendor rather than a clear retail brand.
+Confidence: Medium
 
-### Likely identities
+The strongest clue is the `ipc login:` Telnet prompt. `ipc` is commonly used as shorthand for IP camera in embedded camera/NVR environments. The limited exposed service set makes the device harder to identify, so confidence should remain below High until more evidence is collected.
+
+## Evidence
+
+| Evidence | Interpretation |
+| --- | --- |
+| Telnet on `23/tcp` | Legacy embedded management service; higher-risk finding |
+| `ipc login:` prompt | Strong camera/NVR-style embedded Linux clue |
+| Generic Wi-Fi module OUI | Could indicate an OEM/rebranded IoT device |
+| No HTTP/RTSP shown yet | Camera hypothesis is plausible but not confirmed |
+
+## Likely identities
 
 | Rank | Hypothesis | Confidence | Why |
 | ---: | --- | ---: | --- |
-| 1 | OEM IP camera or NVR-related device | High | `ipc login:` is a strong embedded-camera clue, and Telnet is common on older/low-cost camera firmware |
-| 2 | Generic embedded Linux IoT device | Medium | Telnet plus generic OUI fits many embedded devices |
-| 3 | Smart-home device using camera-like firmware | Low | Possible, but `ipc` points more strongly toward camera/NVR firmware |
+| 1 | OEM IP camera or camera module | Medium | `ipc login:` strongly suggests camera/NVR firmware naming |
+| 2 | NVR/DVR-related embedded device | Medium-Low | Same `ipc` clue could appear in video recorder ecosystems |
+| 3 | Generic embedded Linux IoT device | Low-Medium | Telnet and generic Wi-Fi module fit, but `ipc` points more toward camera |
 
 ## Risk
 
@@ -39,49 +48,66 @@ Risk level: High
 Reasons:
 
 - Telnet is exposed.
-- Device identity is not fully confirmed.
-- Possible camera/NVR devices can expose sensitive video or credentials.
-- Unknown IoT devices should not sit unsegmented on a trusted LAN.
+- The device is not fully identified.
+- Camera/NVR-class devices can expose sensitive video streams or credentials.
+- Unknown IoT devices on a trusted LAN can create lateral-movement risk.
 
 ## Safe next checks
 
-Start passive:
+Start passive, then escalate only if needed.
+
+### Tier 0: Passive evidence
+
+- Check router/firewall DHCP lease table.
+- Check Wi-Fi controller client list.
+- Look for a matching physical device.
+- Check whether any camera/mobile app shows the device as online.
+
+### Tier 1: Local checks
 
 ```bash
 arp -a
 ip neigh
+nslookup 192.168.1.45
+dig -x 192.168.1.45
 ```
 
-Check targeted camera-related services:
+### Tier 2: Targeted camera checks
 
 ```bash
 nmap -Pn -sV -p 23,80,443,554,8000,8080,8081,8899,5000,6668,37777 192.168.1.45
+nmap --script=banner -p 23 192.168.1.45
 ```
 
-Check HTTP titles if web ports are open:
+### Tier 3: Deeper scan
+
+Only use if targeted checks are insufficient and the device is not fragile.
 
 ```bash
-nmap --script=http-title,http-headers -p 80,443,8080,8081 192.168.1.45
+nmap -Pn -sV -p- 192.168.1.45
 ```
-
-Do not brute force the Telnet login.
 
 ## Recommended action
 
 1. Identify the physical device.
-2. Check router/firewall DHCP lease history for hostnames or vendor clues.
-3. Confirm whether it is an expected camera or smart-home device.
-4. If expected, update firmware and disable Telnet if possible.
-5. Change default credentials through the official app/web UI.
-6. Move the device to an IoT VLAN or guest network.
-7. Block internet access if the device is suspicious or no longer needed.
-8. Remove the device from the network if ownership cannot be confirmed.
+2. Isolate it to an IoT/guest VLAN if possible.
+3. Disable Telnet if the vendor interface allows it.
+4. Update firmware.
+5. Change default credentials through the official app or web UI.
+6. Block internet access if the device is suspicious or no longer needed.
+7. Remove it from the network if ownership cannot be confirmed.
 
-## What would improve confidence
+## What would increase confidence
 
-- HTTP title or web UI screenshot
-- RTSP/ONVIF presence
-- DHCP hostname
-- Physical device inventory
-- App pairing history
-- mDNS/SSDP names
+- RTSP on `554`.
+- HTTP admin UI identifying a camera/NVR.
+- ONVIF discovery.
+- Camera app showing the same IP/MAC.
+- Vendor/model from DHCP, mDNS, SSDP, or SNMP.
+
+## What would change the conclusion
+
+- Printer-specific ports such as `631` or `9100`.
+- NAS services such as `445`, `5000`, or `5001`.
+- Router/gateway role evidence such as DHCP/DNS services.
+- A physical inventory match showing the device is not camera-related.
