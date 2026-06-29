@@ -121,20 +121,43 @@ network-device-investigator/
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
 ├── CODE_OF_CONDUCT.md
+├── .github/ISSUE_TEMPLATE/
 ├── examples/
 ├── references/
 └── docs/
 ```
 
+Current examples include:
+
+- `examples/mystery-ip-camera.md`
+- `examples/unknown-printer.md`
+- `examples/nas-device.md`
+
 ## Installation
 
-Clone this repository into your Hermes skills directory, or copy `SKILL.md` and the supporting folders into the appropriate Hermes skills location for your setup.
+Install the whole folder, not just `SKILL.md`. The supporting `references/`
+and `examples/` files are part of the skill.
 
 ```bash
-git clone https://github.com/gingerninja85/network-device-investigator.git
+mkdir -p ~/.hermes/skills/networking
+git clone https://github.com/gingerninja85/network-device-investigator.git \
+  ~/.hermes/skills/networking/network-device-investigator
 ```
 
-Then configure or reference it according to your Hermes installation method.
+Verify Hermes can see it:
+
+```bash
+hermes skills list | grep network-device-investigator
+```
+
+Inside an active Hermes session, load it with:
+
+```text
+/skill network-device-investigator
+```
+
+If you install from a raw `SKILL.md` URL, references may not be copied. Use the
+folder install above when you want the full investigation workflow.
 
 ## Example prompt
 
@@ -153,6 +176,8 @@ What is this likely to be, how risky is it, and what should I check next?
 
 ## Project status
 
-Initial public version. The goal is to build this into a polished community Hermes skill for safe network-device investigation.
+Early public version. The core workflow, safety boundary, references, and the
+first example investigation are present. More examples, decision trees, and
+integration notes are still being expanded.
 
 See `docs/roadmap.md` for planned improvements.

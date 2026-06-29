@@ -31,9 +31,9 @@ Scope:
 
 Remaining polish:
 
-- [ ] Verify installation instructions against current Hermes behaviour
-- [ ] Add at least one more example investigation
-- [ ] Add issue templates
+- [x] Verify installation instructions against current Hermes behaviour
+- [x] Add at least one more example investigation
+- [x] Add issue templates
 
 ## v0.2.0 - Example investigations
 
@@ -42,8 +42,8 @@ Add realistic, generic examples that do not contain private network details.
 Planned examples:
 
 - [x] Mystery IP camera
-- [ ] Unknown printer
-- [ ] NAS device
+- [x] Unknown printer
+- [x] NAS device
 - [ ] Router or gateway
 - [ ] Switch or access point
 - [ ] Smart plug or Tuya-style IoT device
@@ -88,6 +88,10 @@ Planned decision trees:
 - [ ] Smart home / IoT
 - [ ] Media devices
 - [ ] Enterprise management interfaces
+
+Initial decision-tree reference:
+
+- [x] `references/decision-trees.md` with starter flows for camera/NVR, printer, NAS, router/gateway, IoT, and media devices
 
 ## v0.4.0 - Better security triage
 
